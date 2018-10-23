@@ -388,7 +388,7 @@ header .search-form button {
         height: 22px;
         width: 15px;
         position: absolute;
-        right: 20px;
+        right: 40px;
         transition: width ease .4s;
         margin-top: -2px;
     }
@@ -1244,6 +1244,10 @@ footer .footer-bottom ul li + li {
         flex-direction: row;
         width: 100%;
     }
+    .item .item-photography ul li {
+        width: 33.3333334%;
+        height: 100%;
+    }
     .item .item-info {
         margin-top: 50px;
     }
@@ -1267,6 +1271,12 @@ footer .footer-bottom ul li + li {
 .shopping-bag .shopping-bag-list .container {
     display: flex;
     flex-wrap: wrap;
+}
+.shopping-bag .shopping-bag-list .text-empty {
+    text-align: center;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 700;
 }
 .shopping-bag .shopping-bag-list .card {
     width: 50%;

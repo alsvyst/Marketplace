@@ -55,7 +55,10 @@ if (addBtns.length) {
   addBtns.forEach(btn => {
     btn.addEventListener('click', function (e) {
       e.preventDefault();
-      addToBag();
+
+      const itemTitle = e.target.closest('.item-info').querySelector('.item-title').innerText;
+
+      recountHeaderBag(getItem(itemTitle).discountedPrice);
     })
   })
 }
@@ -106,14 +109,18 @@ function select(option) {
   }
 }
 
-function addToBag() {
-  let itemCost;
+function recountHeaderBag(itemCost, symbol = 1, quantity = 1) {
+  totalItems.innerText = +totalItems.innerText + symbol * quantity;
+  totalCost.innerText = '£' + (+totalCost.innerText.slice(1) + itemCost * symbol * quantity).toFixed(2);
+}
+
+function getItem(title) {
+  let currentItem;
   window.catalog.forEach(item => {
-    if (item.title === 'Dark classic fit suit') {
-      itemCost = item.discountedPrice;
+    if (item.title === title) {
+      currentItem = item;
     }
   });
 
-  totalItems.innerText = +totalItems.innerText + 1;
-  totalCost.innerText = '£' + (+totalCost.innerText.slice(1) + itemCost).toFixed(2);
+  return currentItem;
 }
