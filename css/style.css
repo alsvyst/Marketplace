@@ -373,16 +373,40 @@ header .search-form button {
     top: 0;
 }
 @media (max-width: 1024px) and (min-width: 768px) {
+
     header .header-top .logo h1 {
         font-size: 26px;
     }
+    header .header-bottom {
+        margin-bottom: 24px;
+    }
     header .header-nav  {
-        margin-right: 55px;
+        margin-right: 65px;
         font-size: 12px;
     }
+    header .search-form {
+        height: 22px;
+        width: 15px;
+        position: absolute;
+        right: 20px;
+        transition: width ease .4s;
+        margin-top: -2px;
+    }
+    header .search-form.open {
+        background-image: repeating-linear-gradient(to left,rgb(255, 255, 255) 0%,rgb(255, 255, 255) 90%,rgba(255, 255, 255, 0) 100%);
+        width: 320px;
+    }
     header .search-form input[type="text"] {
-        width: 13px;
-        border-bottom: none;
+        width: 0;
+        border-bottom: 2px solid transparent;
+        transition: width ease .4s, border-bottom ease .4s;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    header .search-form.open input[type="text"] {
+        width: 250px;
+        border-bottom: 2px solid #e5e5e5;
     }
 }
 @media (max-width: 767px) {
@@ -418,40 +442,49 @@ header .search-form button {
 /* ===== Header end ===== */
 
 /* ===== Mobile menu start ===== */
-.mobile-menu .mobile-menu-btn {
+.mobile-menu-btn {
+    display: none;
     padding: 28px 20px 30px;
     margin-right: -20px;
     border-left: 1px solid #e5e5e5;
 }
-.mobile-menu .mobile-menu-btn span {
+.mobile-menu-btn span {
     display: block;
     background-color: #000;
     width: 14px;
     height: 2px;
 }
-.mobile-menu .mobile-menu-btn span + span {
+.mobile-menu-btn span + span {
     margin-top: 3px;
 }
-.mobile-menu .mobile-menu-content {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 71px;
-    left: 0;
-    width: 100%;
-    z-index: 99;
-    background-color: #fff;
-    height: calc(100vh - 71px);
-    padding: 30px 20px 25px;
-    justify-content: space-between;
-}
-.mobile-menu .mobile-menu-content nav {
-    flex-direction: column;
-    font-size: 24px;
-    height: 80%;
-}
-.mobile-menu .mobile-menu-content nav a.active {
-    color: #f14a58;
+@media (max-width: 767px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+    .header-bottom.mobile-menu-content {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 71px;
+        left: 0;
+        width: 100%;
+        z-index: 99;
+        background-color: #fff;
+        height: calc(100vh - 71px);
+        padding: 30px 20px 25px;
+        justify-content: space-between;
+    }
+    .header-bottom.mobile-menu-content.open {
+        display: flex;
+    }
+    .header-bottom.mobile-menu-content nav {
+        flex-direction: column;
+        font-size: 24px;
+        height: 80%;
+    }
+    .header-bottom.mobile-menu-content nav a.active {
+        color: #f14a58;
+    }
 }
 /* ===== Mobile menu end ===== */
 
@@ -935,21 +968,43 @@ footer .footer-bottom ul li + li {
     position: relative;
 }
 .filters .filter-item .filterbtn {
-    font-size: 16px;
     height: 68px;
     display: flex;
     align-items: center;
     padding-left: 20px;
     border-left: 1px solid transparent;
     border-right: 1px solid transparent;
-    width: max-content;
     position: relative;
+}
+.filters .filter-item .filterbtn span:first-child {
+    font-size: 16px;
+    margin-bottom: 0;
+    transition: all linear .1s;
+}
+.filters .filter-item .filterbtn .selected-value {
+    font-size: 0;
+    transition: all linear .2s;
+}
+.filters .filter-item.selected .filterbtn {
+    background-color: #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+.filters .filter-item.selected .filterbtn span:first-child {
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+.filters .filter-item.selected .filterbtn .selected-value {
+    color: #f14a58;
+    font-size: 16px;
 }
 .filters .filter-item .filterbtn::after {
     display: block;
     position: absolute;
     content: url("../img/icons/select-arrow.png");
-    right: -20px;
+    right: 20px;
     top: 50%;
     transform: translateY(-50%);
     line-height: 0;
@@ -995,6 +1050,10 @@ footer .footer-bottom ul li + li {
 .filters .mobile-filter .filterbtn {
     font-size: 14px;
     height: 64px;
+    width: max-content;
+}
+.filters .mobile-filter .filterbtn::after {
+    right: -20px;
 }
 .filters .mobile-filter .filter-item:hover .filterbtn {
     border: 1px solid transparent;
@@ -1028,9 +1087,12 @@ footer .footer-bottom ul li + li {
     }
     .filters .filter-item .filterbtn {
         font-size: 13px;
-        width: 100%;
         overflow-x: hidden;
         padding-left: 10px;
+        width: 100%;
+    }
+    .filters .filter-item .filterbtn::after {
+        right: -20px;
     }
     .filters .filter-item .filterbtn > span {
         width: 420px;

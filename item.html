@@ -21,9 +21,14 @@
             </a>
             <div class="user-container">
                 <a href="#" class="sign-up">E-mail sing up</a>
-                <a href="#"><img src="img/icons/bag.png" alt="">Bag (<span id="totalCost">0</span>)</a>
+                <a href="#" class=""><img src="img/icons/bag.png" alt="">Bag <span id="totalCost"></span> (<span id="totalItems">0</span>)</a>
             </div>
             <!-- /.user-container -->
+            <button class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
         <!-- /.header-top -->
         <div class="header-bottom mobile-menu-content">
@@ -94,7 +99,7 @@
                         <input type="radio" value="blue" name="color" id="colorBlue" checked>
                         <label for="colorBlue">Blue</label>
                     </div>
-                    <button class="btn" href="shopping-bag.html">Add to bag</button>
+                    <button class="btn add-to">Add to bag</button>
                 </form>
             </div>
             <!-- /.item-info -->
@@ -231,6 +236,7 @@
     <!-- /.footer-bottom -->
 </footer>
 
+<script src="data/catalog.js"></script>
 <script src="js/common.js"></script>
 </body>
 </html>

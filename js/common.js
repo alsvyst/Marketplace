@@ -1,6 +1,12 @@
-const catalog = document.querySelector('.catalog .row');
 const header = document.querySelector('header');
-const body = document.querySelector('body');
+const mobileMenu = header.querySelector('.mobile-menu-content');
+const search = header.querySelector('.search-form');
+const searchBtn = search.querySelector('button');
+const catalog = document.querySelector('.catalog .row');
+const filters = document.querySelector('.filters');
+const addBtns = document.querySelectorAll('.add-to');
+const totalCost = header.querySelector('#totalCost');
+const totalItems = header.querySelector('#totalItems');
 
 document.addEventListener('DOMContentLoaded', function(){
   if (window.innerWidth <= 1024 && catalog) {
@@ -8,9 +14,6 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   if (window.innerWidth < 768 && catalog) {
     changeOrderInMobileCatalog()
-  }
-  if (window.innerWidth < 768 && !document.querySelector('.mobile-menu-btn')) {
-    addMobileMenu();
   }
 });
 
@@ -24,18 +27,38 @@ window.addEventListener('resize', function(){
   if (window.innerWidth > 1024 && catalog) {
     returnOrderInCatalog();
   }
-  if (window.innerWidth <= 767 && !document.querySelector('.mobile-menu-btn')) {
-    addMobileMenu();
-  }
 });
 
 header.addEventListener('click', function (e) {
-  if (e.target.classList.contains('mobile-menu-btn')) {
+  if (e.target.closest('.mobile-menu-btn')) {
     e.preventDefault();
-    header.querySelector('.mobile-menu-content').style.display = header.querySelector('.mobile-menu-content').style.display === 'flex' ? 'none' : 'flex';
-    body.style.overflowY = body.style.overflowY === 'hidden' ? 'scroll' : 'hidden';
+    mobileMenu.classList.toggle('open');
   }
 });
+
+searchBtn.addEventListener('click', function (e) {
+  e.preventDefault();
+  if (window.innerWidth <= 1024 && window.innerWidth > 767) {
+    search.classList.toggle('open');
+  }
+});
+
+if (filters) {
+  filters.addEventListener('click', function (e) {
+    if (e.target.closest('.filter-option')) {
+      select(e.target);
+    }
+  });
+}
+
+if (addBtns.length) {
+  addBtns.forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      addToBag();
+    })
+  })
+}
 
 function changeOrderInTabletCatalog() {
   const catalogList = Array.from(catalog.children);
@@ -63,22 +86,34 @@ function returnOrderInCatalog() {
   });
 }
 
-function addMobileMenu() {
-  const container = document.querySelector('.header-top');
-  const menuContent = document.querySelector('.mobile-menu-content');
+function select(option) {
+  const select = option.closest('.filter-item');
+  const btnValue = select.querySelector('.selected-value');
+  const options = select.querySelectorAll('.filter-option');
 
-  const template = `
-        <div class="mobile-menu">
-              <button class="mobile-menu-btn">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-              </button>
-              ${menuContent.outerHTML}
-        </div>
-    <!-- /.mobile-menu -->
-  `;
+  options.forEach(opt => {
+    opt.classList.remove('active');
+  });
 
-  container.insertAdjacentHTML('beforeend', template);
-  menuContent.style.display = 'none';
-};
+  if (option.innerText === 'Not selected') {
+    select.classList.remove('selected');
+    btnValue.innerText = '';
+  } else {
+    option.classList.add('active');
+    select.classList.add('selected');
+
+    btnValue.innerText = option.innerText;
+  }
+}
+
+function addToBag() {
+  let itemCost;
+  window.catalog.forEach(item => {
+    if (item.title === 'Dark classic fit suit') {
+      itemCost = item.discountedPrice;
+    }
+  });
+
+  totalItems.innerText = +totalItems.innerText + 1;
+  totalCost.innerText = '£' + (+totalCost.innerText.slice(1) + itemCost).toFixed(2);
+}
