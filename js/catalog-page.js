@@ -1,26 +1,30 @@
 const catalogContainer = document.querySelector('.catalog .row');
 const filters = document.querySelector('.filters');
+const aside = catalogContainer.querySelector('aside');
 
 document.addEventListener('DOMContentLoaded', function(){
   renderCatalog();
+  setOrder();
 
-  if (window.innerWidth <= 1024) {
-    changeOrderInTabletCatalog();
+  aside.style.order = '4';
+
+  if (window.innerWidth <= 1024 && window.innerWidth >= 768) {
+    aside.style.order = '3';
   }
   if (window.innerWidth < 768) {
-    changeOrderInMobileCatalog()
+    aside.style.order = '2';
   }
 });
 
 window.addEventListener('resize', function(){
-  if (window.innerWidth <= 1024) {
-    changeOrderInTabletCatalog();
-  }
   if (window.innerWidth < 768) {
-    changeOrderInMobileCatalog();
+    aside.style.order = '2';
+  }
+  if (window.innerWidth <= 1024 && window.innerWidth >= 768) {
+    aside.style.order = '3';
   }
   if (window.innerWidth > 1024) {
-    returnOrderInCatalog();
+    aside.style.order = '4';
   }
 });
 
@@ -29,32 +33,6 @@ filters.addEventListener('click', function (e) {
     select(e.target);
   }
 });
-
-function changeOrderInTabletCatalog() {
-  const catalogList = Array.from(catalogContainer.children);
-  catalogList.forEach((el, pos) => {
-    el.style.order = pos;
-  });
-  catalogList[3].style.order = 4;
-  catalogList[4].style.order = 3;
-}
-
-function changeOrderInMobileCatalog() {
-  const catalogList = Array.from(catalogContainer.children);
-  catalogList.forEach((el, pos) => {
-    el.style.order = pos;
-  });
-  catalogList[2].style.order = 3;
-  catalogList[3].style.order = 4;
-  catalogList[4].style.order = 2;
-}
-
-function returnOrderInCatalog() {
-  const catalogList = Array.from(catalogContainer.children);
-  catalogList.forEach((el, pos) => {
-    el.style.order = pos;
-  });
-}
 
 function select(option) {
   const select = option.closest('.filter-item');
@@ -97,7 +75,7 @@ function renderCatalog() {
                       <span>${item.title}</span>
                   </div>
                   <div class="card-price">
-                      <span>£${(item.discountedPrice || item.price).toFixed(2)}</span>
+                      <span class="line-through">${item.price !== item.discountedPrice ? (item.price).toFixed(2) : ''}</span><span>£${(item.discountedPrice).toFixed(2)}</span>
                   </div>
               </div>
           </a>
@@ -106,4 +84,11 @@ function renderCatalog() {
 
     catalogContainer.insertAdjacentHTML('beforeend', template);
   })
+}
+
+function setOrder() {
+  const catalogList = catalogContainer.querySelectorAll('.card');
+  catalogList.forEach((el, pos) => {
+    el.style.order = pos;
+  });
 }

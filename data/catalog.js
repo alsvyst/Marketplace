@@ -59,7 +59,7 @@ window.catalog = [{
     dateAdded: '2017-07-07T10:00:39.000Z',
     title: "Levi's Jeans for women",
     description: '',
-    discountedPrice: null,
+    discountedPrice: 95.5,
     price: 95.5,
     hasNew: false,
     category: 'women',

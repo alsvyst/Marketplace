@@ -194,12 +194,12 @@ input[type=number]{
 }
 .card .card-title {
     font-weight: 700;
-    margin-top: 40px;
-    margin-bottom: 15px;
+    margin: 40px auto 15px;
     line-height: 24px;
+    max-width: 180px;
 }
-.card .card-price span + span {
-    margin-left: 10px;
+.card .card-price span:first-child {
+    margin-right: 10px;
 }
 .card a:hover .card-image::after {
     opacity: 1;
@@ -223,6 +223,7 @@ input[type=number]{
     }
     .card .card-title {
         line-height: 20px;
+        max-width: 140px;
     }
 }
 .card.new .card-image::before{
@@ -951,6 +952,9 @@ footer .footer-bottom ul li + li {
     .catalog aside .title {
         font-size: 18px;
         line-height: 30px;
+    }
+    .catalog .card {
+        margin-bottom: 55px;
     }
 }
 /* ===== Catalog end ===== */
