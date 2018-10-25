@@ -58,6 +58,17 @@ function getItem(title) {
   return currentItem;
 }
 
+function getItemById(id) {
+  let currentItem;
+  window.catalog.forEach(item => {
+    if (item.id === id) {
+      currentItem = item;
+    }
+  });
+
+  return currentItem;
+}
+
 function changePreviewImage(element) {
   const list = photography.querySelectorAll('.preview-image');
   const full = photography.querySelector('.full');
@@ -68,3 +79,25 @@ function changePreviewImage(element) {
   full.innerHTML = element.innerHTML;
   element.classList.add('active-image');
 };
+
+function createCard(item) {
+  const template = `
+      <div class="card ${item.hasNew ? 'new' : ''}">
+          <a href="item.html">
+              <div class="card-image">
+                  <img src="${item.thumbnail}" alt="">
+              </div>
+              <div class="card-description">
+                  <div class="card-title">
+                      <span>${item.title}</span>
+                  </div>
+                  <div class="card-price">
+                      <span class="line-through">${item.price !== item.discountedPrice ? (item.price).toFixed(2) : ''}</span><span>£${(item.discountedPrice).toFixed(2)}</span>
+                  </div>
+              </div>
+          </a>
+      </div>
+    `;
+
+  return template;
+}

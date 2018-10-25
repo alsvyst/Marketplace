@@ -64,25 +64,7 @@ function renderCatalog() {
   });
 
   currentArr.forEach(item => {
-    const template = `
-      <div class="card ${item.hasNew ? 'new' : ''}">
-          <a href="item.html">
-              <div class="card-image">
-                  <img src="${item.thumbnail}" alt="">
-              </div>
-              <div class="card-description">
-                  <div class="card-title">
-                      <span>${item.title}</span>
-                  </div>
-                  <div class="card-price">
-                      <span class="line-through">${item.price !== item.discountedPrice ? (item.price).toFixed(2) : ''}</span><span>£${(item.discountedPrice).toFixed(2)}</span>
-                  </div>
-              </div>
-          </a>
-      </div>
-    `;
-
-    catalogContainer.insertAdjacentHTML('beforeend', template);
+    catalogContainer.insertAdjacentHTML('beforeend', createCard(item));
   })
 }
 

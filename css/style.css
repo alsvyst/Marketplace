@@ -768,6 +768,10 @@ footer .footer-bottom ul li + li {
 .best-offer .section-header {
     margin-bottom: 70px;
 }
+.best-offer .best-offer-item button {
+    display: block;
+    margin: 0 auto;
+}
 .best-offer .row > span {
     font-weight: 700;
     font-size: 34px;
@@ -776,10 +780,6 @@ footer .footer-bottom ul li + li {
 .best-offer .card a{
     margin: 40px 0;
     display: block;
-}
-.best-offer .card button {
-    display: block;
-    margin: 0 auto;
 }
 .best-offer .discount {
     height: 543px;
