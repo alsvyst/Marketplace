@@ -1,9 +1,9 @@
 'use strict';
 
-var bestOffer = document.querySelector('.best-offer');
-var oldPrice = bestOffer.querySelector('.discount-price .old-price span');
-var newPrice = bestOffer.querySelector('.discount-price .new-price span');
-var bestOfferBtn = bestOffer.querySelector('#bestOfferBtn');
+var bestOfferSection = document.querySelector('.best-offer');
+var oldPrice = bestOfferSection.querySelector('.discount-price .old-price span');
+var newPrice = bestOfferSection.querySelector('.discount-price .new-price span');
+var bestOfferBtn = bestOfferSection.querySelector('#bestOfferBtn');
 
 var counter = {
   left: bestOfferCounter('left'),
@@ -14,11 +14,11 @@ var offer = offerState();
 
 (function () {
   recountBestOfferPrice(offer());
-  renderBestOfferCard(offer().left, bestOffer.querySelector('.best-offer-item-left .best-offer-card-container'));
-  renderBestOfferCard(offer().right, bestOffer.querySelector('.best-offer-item-right .best-offer-card-container'));
+  renderBestOfferCard(offer().left, bestOfferSection.querySelector('.best-offer-item-left .best-offer-card-container'));
+  renderBestOfferCard(offer().right, bestOfferSection.querySelector('.best-offer-item-right .best-offer-card-container'));
 })();
 
-bestOffer.addEventListener('click', function (e) {
+bestOfferSection.addEventListener('click', function (e) {
   if (e.target.closest('.step-btn')) {
     var element = e.target.closest('.best-offer-item');
     var position = element.dataset.position;

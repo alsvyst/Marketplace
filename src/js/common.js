@@ -7,6 +7,20 @@ const totalCost = header.querySelector('#totalCost');
 const totalItems = header.querySelector('#totalItems');
 const photography = document.querySelector('.item-photography');
 
+if (window.Element && !Element.prototype.closest) {
+  Element.prototype.closest =
+    function(s) {
+      var matches = (this.document || this.ownerDocument).querySelectorAll(s),
+        i,
+        el = this;
+      do {
+        i = matches.length;
+        while (--i >= 0 && matches.item(i) !== el) {};
+      } while ((i < 0) && (el = el.parentElement));
+      return el;
+    };
+}
+
 (function () {
   const bag = getShoppingBag();
   setHeaderBagCost(bag.totalCost - (bag.discount ? bestOffer.discount : 0), bag.totalItems);
