@@ -947,7 +947,7 @@ footer .footer-bottom ul li + li {
 }
 @media (max-width: 767px) {
     .catalog .card {
-        width: 50%;
+        width: auto;
     }
     .catalog aside .title {
         font-size: 18px;
@@ -980,7 +980,7 @@ footer .footer-bottom ul li + li {
     border-right: 1px solid transparent;
     position: relative;
 }
-.filters .filter-item .filterbtn span:first-child {
+.filters .main-filter .filter-item .filterbtn span:first-child {
     font-size: 16px;
     margin-bottom: 0;
     transition: all linear .1s;
@@ -996,7 +996,7 @@ footer .footer-bottom ul li + li {
     align-items: flex-start;
     justify-content: center;
 }
-.filters .filter-item.selected .filterbtn span:first-child {
+.filters .main-filter .filter-item.selected .filterbtn span:first-child {
     font-size: 12px;
     margin-bottom: 5px;
 }
@@ -1051,6 +1051,15 @@ footer .footer-bottom ul li + li {
 .filters .mobile-filter .filter-item {
     width: 100%;
 }
+.filters .mobile-filter .filter-item::after {
+    content: '';
+    width: 100px;
+    height: 100%;
+    position: absolute;
+    right: -20px;
+    top: 0;
+    background-image: repeating-linear-gradient(to left,rgb(255, 255, 255) 0%,rgb(255, 255, 255) 58%,rgba(255, 255, 255, 0) 100%);
+}
 .filters .mobile-filter .filterbtn {
     font-size: 14px;
     height: 64px;
@@ -1059,17 +1068,80 @@ footer .footer-bottom ul li + li {
 .filters .mobile-filter .filterbtn::after {
     right: -20px;
 }
+.filters .mobile-filter .filter-item {
+    position: relative;
+}
 .filters .mobile-filter .filter-item:hover .filterbtn {
-    border: 1px solid transparent;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
     box-shadow: none;
 }
 .filters .mobile-filter .filter-item:hover .filter-content {
+    display: none;
+    border: 1px solid transparent;
+    box-shadow: none;
+}
+.filters .mobile-filter.mobile-open .filter-item .filterbtn {
+    border: 1px solid transparent;
+    box-shadow: none;
+    background-color: transparent;
+}
+.filters .mobile-filter.mobile-open .filterbtn::after {
+    display: none;
+}
+.filters .mobile-filter.mobile-open .filter-item .filter-content {
     border: 1px solid transparent;
     border-top: 1px solid #e5e5e5;
     box-shadow: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+.filters .mobile-filter .filter-content > div {
+    width: 33.333334%;
+}
+.filters .mobile-filter .filter-content > div > span {
+    font-size: 16.67px;
+    line-height: 1;
+    display: block;
+    margin-bottom: 25px;
+    margin-top: 50px;
 }
 .filters .mobile-filter .filter-content li {
-    padding-left: 0;
+    padding-left: 30px;
+    color: #a8a8a8;
+    font-size: 14px;
+    line-height: 1;
+    position: relative;
+}
+.filters .mobile-filter .filter-content li::before {
+    content: '•';
+    left: 0;
+    position: absolute;
+}
+.filters .mobile-filter .filter-content li:first-child.active {
+    color: #000;
+}
+.filters .mobile-filter .filter-content li.active {
+    color: #f14a58;
+}
+.filters .mobile-filter .filter-content li + li {
+    margin-top: 20px;
+}
+.filters .mobile-filter .filter-content li:hover {
+    background-color: transparent;
+}
+.filters .mobile-filter .close {
+    position: absolute;
+    width: auto;
+    height: auto;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 999;
+    display: none;
+}
+.filters .mobile-filter.mobile-open .close {
+    display: block;
 }
 @media (max-width: 1024px) {
     .filters .mobile-filter {
@@ -1080,15 +1152,6 @@ footer .footer-bottom ul li + li {
     }
 }
 @media (max-width: 767px) {
-    .filters .mobile-filter .filter-item::after {
-        content: '';
-        width: 70px;
-        height: 100%;
-        position: absolute;
-        right: -20px;
-        top: 0;
-        background-image: repeating-linear-gradient(to left,rgb(255, 255, 255) 0%,rgb(255, 255, 255) 58%,rgba(255, 255, 255, 0) 100%);
-    }
     .filters .filter-item .filterbtn {
         font-size: 13px;
         overflow-x: hidden;
@@ -1106,6 +1169,9 @@ footer .footer-bottom ul li + li {
     .filters .filter-item .filterbtn::after {
         right: 0;
         z-index: 999;
+    }
+    .filters .mobile-filter .filter-content > div {
+        width: 50%;
     }
 }
     /* ===== Filters end ===== */

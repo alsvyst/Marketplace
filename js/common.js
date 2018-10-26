@@ -60,7 +60,7 @@ if (photography) {
 
 function setHeaderBagCost(price, quantity) {
   totalItems.innerText = quantity;
-  totalCost.innerText = `£${price.toFixed(2)}`;
+  totalCost.innerText = price ? `£${price.toFixed(2)}` : '';
 }
 
 function recountTotalBagCost(bag) {

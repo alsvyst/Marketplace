@@ -3,7 +3,7 @@ const bagList = bag.querySelector('.shopping-bag-list .container');
 const clearBagBtn = document.querySelector('#empty');
 const byBtn = document.querySelector('#byNow');
 const totalBagPrice = document.querySelector('.total-price .total .price');
-const totalBagDiscout = document.querySelector('.total-price .discount .price');
+const totalBagDiscount = document.querySelector('.total-price .discount');
 
 (function () {
   const bag = getShoppingBag();
@@ -121,6 +121,9 @@ function renderBagCards() {
 }
 
 function setTotalPrice(bag) {
-  totalBagDiscout.innerText = `£${(bag.discount ? window.bestOffer.discount : 0).toFixed(2)}`;
+  totalBagDiscount.innerHTML = bag.discount ? `
+  <span>Applied discount:</span>
+  <span class="price">£${(window.bestOffer.discount).toFixed(2)}</span>
+  ` : '';
   totalBagPrice.innerText = `£${(bag.totalCost - (bag.discount ? window.bestOffer.discount : 0)).toFixed(2)}`;
 }

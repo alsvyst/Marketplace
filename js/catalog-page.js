@@ -1,6 +1,6 @@
 const catalogContainer = document.querySelector('.catalog .row');
-const filters = document.querySelector('.filters');
 const aside = catalogContainer.querySelector('aside');
+const filters = document.querySelector('.filters');
 
 document.addEventListener('DOMContentLoaded', function(){
   renderCatalog();
@@ -29,8 +29,19 @@ window.addEventListener('resize', function(){
 });
 
 filters.addEventListener('click', function (e) {
-  if (e.target.closest('.filter-option')) {
+  if (e.target.closest('.main-filter .filter-option')) {
     select(e.target);
+  }
+  if (e.target.closest('.mobile-filter .filter-item')) {
+    const mobileFilter = e.target.closest('.mobile-filter');
+    mobileFilter.classList.add('mobile-open');
+  }
+  if (e.target.closest('.mobile-filter .filter-option')) {
+    mobileSelect(e.target);
+  }
+  if (e.target.closest('.close')) {
+    const mobileFilter = e.target.closest('.mobile-filter');
+    mobileFilter.classList.remove('mobile-open');
   }
 });
 
@@ -51,6 +62,26 @@ function select(option) {
     select.classList.add('selected');
 
     btnValue.innerText = option.innerText;
+  }
+}
+
+function mobileSelect(option) {
+  const list = option.closest('ul').querySelectorAll('li');
+  const value = option.innerText;
+  const dataset = option.closest('.mobile-filter-options').dataset.select;
+  const btnValue = filters.querySelector(`[data-select="${dataset}"]`);
+
+  list.forEach(opt => {
+    opt.classList.remove('active');
+  });
+  option.classList.add('active');
+
+  if (value === 'Not selected') {
+    btnValue.innerText = option.closest('.mobile-filter-options').querySelector('span').innerText;
+    btnValue.classList.remove('active');
+  } else {
+    btnValue.innerText = value;
+    btnValue.classList.add('active');
   }
 }
 
