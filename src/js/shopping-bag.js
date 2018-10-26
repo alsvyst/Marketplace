@@ -95,9 +95,7 @@ function renderBagCards() {
                         <div class="card-image">
                             <img src="${item.thumbnail}" alt="">
                         </div>
-                        <div class="card-title">
-                            <span>${item.title}</span>
-                        </div>
+                        <div class="card-title"><span>${item.title}</span></div>
                     </a>
                     <div class="card-price">
                         <span>£${(item.discountedPrice).toFixed(2)}</span>

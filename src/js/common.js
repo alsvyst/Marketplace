@@ -2,7 +2,7 @@ const header = document.querySelector('header');
 const mobileMenu = header.querySelector('.mobile-menu-content');
 const search = header.querySelector('.search-form');
 const searchBtn = search.querySelector('button');
-const addBtns = document.querySelectorAll('.add-to');
+const addBtn = document.querySelector('.add-to');
 const totalCost = header.querySelector('#totalCost');
 const totalItems = header.querySelector('#totalItems');
 const photography = document.querySelector('.item-photography');
@@ -40,26 +40,24 @@ searchBtn.addEventListener('click', function (e) {
   }
 });
 
-if (addBtns.length) {
-  addBtns.forEach(btn => {
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
+if (addBtn) {
+  addBtn.addEventListener('click', function (e) {
+    e.preventDefault();
 
-      const info = e.target.closest('.item-info');
-      const itemTitle = info.querySelector('.item-title').innerText;
-      const size = 'UK ' + info.querySelector('#itemSize input:checked').value;
-      const color = info.querySelector('#itemColor input:checked').value;
+    const info = e.target.closest('.item-info');
+    const itemTitle = info.querySelector('.item-title').innerText;
+    const size = 'UK ' + info.querySelector('#itemSize input:checked').value;
+    const color = info.querySelector('#itemColor input:checked').value;
 
-      if (!recountNumbers(itemTitle, color, size, 1)) {
-        const item = getItem(itemTitle);
-        item.toBag = {
-          color: color,
-          size: size,
-          number: 1
-        };
-        addToBag(item);
-      }
-    })
+    if (!recountNumbers(itemTitle, color, size, 1)) {
+      const item = getItem(itemTitle);
+      item.toBag = {
+        color: color,
+        size: size,
+        number: 1
+      };
+      addToBag(item);
+    }
   })
 }
 
@@ -192,7 +190,6 @@ function recountNumbers(title, color, size, symbol = 1) {
   const bag = getShoppingBag();
   bag.items.forEach(item => {
     if (item.title === title && item.toBag.color === color && item.toBag.size === size) {
-
       if (item.number === 1 && symbol === -1) {
         return;
       }

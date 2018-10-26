@@ -4,7 +4,7 @@ var header = document.querySelector('header');
 var mobileMenu = header.querySelector('.mobile-menu-content');
 var search = header.querySelector('.search-form');
 var searchBtn = search.querySelector('button');
-var addBtns = document.querySelectorAll('.add-to');
+var addBtn = document.querySelector('.add-to');
 var totalCost = header.querySelector('#totalCost');
 var totalItems = header.querySelector('#totalItems');
 var photography = document.querySelector('.item-photography');
@@ -41,26 +41,24 @@ searchBtn.addEventListener('click', function (e) {
   }
 });
 
-if (addBtns.length) {
-  addBtns.forEach(function (btn) {
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
+if (addBtn) {
+  addBtn.addEventListener('click', function (e) {
+    e.preventDefault();
 
-      var info = e.target.closest('.item-info');
-      var itemTitle = info.querySelector('.item-title').innerText;
-      var size = 'UK ' + info.querySelector('#itemSize input:checked').value;
-      var color = info.querySelector('#itemColor input:checked').value;
+    var info = e.target.closest('.item-info');
+    var itemTitle = info.querySelector('.item-title').innerText;
+    var size = 'UK ' + info.querySelector('#itemSize input:checked').value;
+    var color = info.querySelector('#itemColor input:checked').value;
 
-      if (!recountNumbers(itemTitle, color, size, 1)) {
-        var item = getItem(itemTitle);
-        item.toBag = {
-          color: color,
-          size: size,
-          number: 1
-        };
-        addToBag(item);
-      }
-    });
+    if (!recountNumbers(itemTitle, color, size, 1)) {
+      var item = getItem(itemTitle);
+      item.toBag = {
+        color: color,
+        size: size,
+        number: 1
+      };
+      addToBag(item);
+    }
   });
 }
 
@@ -183,7 +181,6 @@ function recountNumbers(title, color, size) {
   var bag = getShoppingBag();
   bag.items.forEach(function (item) {
     if (item.title === title && item.toBag.color === color && item.toBag.size === size) {
-
       if (item.number === 1 && symbol === -1) {
         return;
       }
