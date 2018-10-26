@@ -31,13 +31,16 @@ if (addBtns.length) {
     btn.addEventListener('click', function (e) {
       e.preventDefault();
 
-      const itemTitle = e.target.closest('.item-info').querySelector('.item-title').innerText;
+      const info = e.target.closest('.item-info');
+      const itemTitle = info.querySelector('.item-title').innerText;
+      const size = info.querySelector('#itemSize input:checked').value;
+      const color = info.querySelector('#itemColor input:checked').value;
 
-      if (!recountNumbers(itemTitle)) {
+      if (!recountNumbers(itemTitle, color, size, 1)) {
         const item = getItem(itemTitle);
         item.toBag = {
-          color: item.colors[0],
-          size: item.sizes[0],
+          color: color || item.colors[0],
+          size: size || item.sizes[0],
           number: 1
         };
         addToBag(item);
@@ -153,12 +156,12 @@ function getShoppingBag() {
   return shoppingBag;
 }
 
-function recountNumbers(title, symbol = 1) {
+function recountNumbers(title, color, size, symbol = 1) {
   let result = 0;
 
   const bag = getShoppingBag();
   bag.items.forEach(item => {
-    if (item.title === title) {
+    if (item.title === title && item.toBag.color === color && item.toBag.size === size) {
 
       if (item.number === 1 && symbol === -1) {
         return;

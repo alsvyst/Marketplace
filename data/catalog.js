@@ -194,4 +194,19 @@ window.catalog = [{
     sizes: ['UK 18'],
     thumbnail: 'img/catalog/10.jpg', // replace with image extracted from item layout
     preview: ['full image path 1', 'full image path 2', 'full image path 3'] // replace with paths to images extracted from item layout
-}];
+},
+  {
+    id: '5677f851-1c4a-4e9b-80e9-16d1e6265651',
+    dateAdded: '2017-05-07T10:00:39.000Z',
+    title: "Nike Air Zoom Elite 10 Red",
+    description: '',
+    discountedPrice: 89.7,
+    price: 89.7,
+    hasNew: true,
+    category: 'men',
+    fashion: 'Casual style',
+    colors: ['Red'],
+    sizes: ['UK 7.5', 'UK 8', 'UK 8.5'],
+    thumbnail: 'img/catalog/14.jpg', // replace with image extracted from item layout
+    preview: ['full image path 1', 'full image path 2', 'full image path 3'] // replace with paths to images extracted from item layout
+  }];

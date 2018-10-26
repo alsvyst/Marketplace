@@ -18,13 +18,16 @@ const totalBagDiscout = document.querySelector('.total-price .discount .price');
 bag.addEventListener('click', (e) => {
   if (e.target.closest('.quantity-plus') || e.target.closest('.quantity-minus')) {
     e.preventDefault();
-    const title = e.target.closest('.card').querySelector('.card-title').innerText;
+    const card = e.target.closest('.card');
+    const title = card.querySelector('.card-title').innerText;
+    const color = card.querySelector('.color').innerText.slice(7);
+    const size = card.querySelector('.size').innerText.slice(9);
     const input = e.target.closest('.quantity').querySelector('input');
     if (e.target.closest('.quantity-plus')) {
-      setTotalPrice(recountNumbers(title));
+      setTotalPrice(recountNumbers(title, color, size));
       input.value = +(input.value) + 1;
     } else if (input.value !== '1') {
-      setTotalPrice(recountNumbers(title, -1));
+      setTotalPrice(recountNumbers(title, color, size, -1));
       input.value = +input.value - 1;
     }
   }
@@ -64,10 +67,12 @@ function clearBag() {
 
 function removeItem(item) {
   const title = item.querySelector('.card-title').innerText;
+  const color = item.querySelector('.color').innerText.slice(7);
+  const size = item.querySelector('.size').innerText.slice(9);
   const bag = getShoppingBag();
 
   bag.items = bag.items.filter(item => {
-    return item.title !== title;
+    return !(item.title === title && item.toBag.color === color && item.toBag.size === size);
   });
 
   recountTotalBagCost(bag);
@@ -98,8 +103,8 @@ function renderBagCards() {
                         <span>£${(item.discountedPrice).toFixed(2)}</span>
                     </div>
                     <div class="card-options">
-                        <span>Color: ${item.toBag.color}</span>
-                        <span>Size: ${item.toBag.size}</span>
+                        <span class="color">Color: ${item.toBag.color}</span>
+                        <span class="size">Size: UK ${item.toBag.size}</span>
                         <div class="quantity">
                             <span>Quantity:</span>
                             <button class="quantity-minus"><img src="img/icons/minus.png" alt=""></button>
