@@ -33,14 +33,14 @@ if (addBtns.length) {
 
       const info = e.target.closest('.item-info');
       const itemTitle = info.querySelector('.item-title').innerText;
-      const size = info.querySelector('#itemSize input:checked').value;
+      const size = 'UK ' + info.querySelector('#itemSize input:checked').value;
       const color = info.querySelector('#itemColor input:checked').value;
 
       if (!recountNumbers(itemTitle, color, size, 1)) {
         const item = getItem(itemTitle);
         item.toBag = {
-          color: color || item.colors[0],
-          size: size || item.sizes[0],
+          color: color,
+          size: size,
           number: 1
         };
         addToBag(item);
@@ -66,10 +66,26 @@ function setHeaderBagCost(price, quantity) {
 function recountTotalBagCost(bag) {
   bag.totalCost = 0;
   bag.totalItems = 0;
+  bag.discount = false;
+
+  let discountCounter = 0;
+
   bag.items.forEach(item => {
     bag.totalCost += item.discountedPrice * item.toBag.number;
     bag.totalItems = bag.totalItems + item.toBag.number;
+
+    if (window.bestOffer.left.some(id => id === item.id)) {
+      discountCounter++;
+    }
+
+    if (window.bestOffer.right.some(id => id === item.id)) {
+      discountCounter++;
+    }
   });
+
+  if (discountCounter >= 2) {
+    bag.discount = true;
+  }
 
   setHeaderBagCost(bag.totalCost - (bag.discount ? window.bestOffer.discount : 0), bag.totalItems);
 }

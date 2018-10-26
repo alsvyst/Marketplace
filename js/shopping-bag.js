@@ -21,7 +21,7 @@ bag.addEventListener('click', (e) => {
     const card = e.target.closest('.card');
     const title = card.querySelector('.card-title').innerText;
     const color = card.querySelector('.color').innerText.slice(7);
-    const size = card.querySelector('.size').innerText.slice(9);
+    const size = card.querySelector('.size').innerText.slice(6);
     const input = e.target.closest('.quantity').querySelector('input');
     if (e.target.closest('.quantity-plus')) {
       setTotalPrice(recountNumbers(title, color, size));
@@ -68,7 +68,7 @@ function clearBag() {
 function removeItem(item) {
   const title = item.querySelector('.card-title').innerText;
   const color = item.querySelector('.color').innerText.slice(7);
-  const size = item.querySelector('.size').innerText.slice(9);
+  const size = item.querySelector('.size').innerText.slice(6);
   const bag = getShoppingBag();
 
   bag.items = bag.items.filter(item => {
@@ -104,7 +104,7 @@ function renderBagCards() {
                     </div>
                     <div class="card-options">
                         <span class="color">Color: ${item.toBag.color}</span>
-                        <span class="size">Size: UK ${item.toBag.size}</span>
+                        <span class="size">Size: ${item.toBag.size}</span>
                         <div class="quantity">
                             <span>Quantity:</span>
                             <button class="quantity-minus"><img src="img/icons/minus.png" alt=""></button>

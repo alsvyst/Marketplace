@@ -826,7 +826,7 @@ footer .footer-bottom ul li + li {
     .best-offer .discount .new-price {
         font-size: 30px;
     }
-    .best-offer .discount a.btn {
+    .best-offer .discount .btn {
         position: absolute;
         bottom: 0;
         left: 50%;
@@ -871,7 +871,7 @@ footer .footer-bottom ul li + li {
         display: inline;
 
     }
-    .best-offer .discount a.btn {
+    .best-offer .discount .btn {
         position: static;
         transform: none;
     }

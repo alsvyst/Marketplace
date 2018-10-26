@@ -1,6 +1,7 @@
 const bestOffer = document.querySelector('.best-offer');
 const oldPrice = bestOffer.querySelector('.discount-price .old-price span');
 const newPrice = bestOffer.querySelector('.discount-price .new-price span');
+const bestOfferBtn = bestOffer.querySelector('#bestOfferBtn');
 
 const counter = {
   left: bestOfferCounter('left'),
@@ -8,6 +9,12 @@ const counter = {
 };
 
 const offer = offerState();
+
+(function () {
+  recountBestOfferPrice(offer());
+  renderBestOfferCard(offer().left, bestOffer.querySelector('.best-offer-item-left .best-offer-card-container'));
+  renderBestOfferCard(offer().right, bestOffer.querySelector('.best-offer-item-right .best-offer-card-container'));
+})();
 
 bestOffer.addEventListener('click', function (e) {
   if (e.target.closest('.step-btn')) {
@@ -20,6 +27,29 @@ bestOffer.addEventListener('click', function (e) {
 
     recountBestOfferPrice(state);
     renderBestOfferCard(state[position], container);
+  }
+});
+
+bestOfferBtn.addEventListener('click', function (e) {
+  e.preventDefault();
+  const leftItem = offer().left;
+  if (!recountNumbers(leftItem.title, leftItem.colors[0], leftItem.sizes[0])) {
+    leftItem.toBag = {
+      color: leftItem.colors[0],
+      size: leftItem.sizes[0],
+      number: 1
+    };
+    addToBag(leftItem);
+  }
+
+  const rightItem = offer().right;
+  if (!recountNumbers(rightItem.title, rightItem.colors[0], rightItem.sizes[0])) {
+    rightItem.toBag = {
+      color: rightItem.colors[0],
+      size: rightItem.sizes[0],
+      number: 1
+    };
+    addToBag(rightItem);
   }
 });
 
@@ -66,10 +96,3 @@ function recountBestOfferPrice(state) {
   oldPrice.innerText = '£' + sum.toFixed(2);
   newPrice.innerText = '£' + (sum - window.bestOffer.discount).toFixed(2);
 }
-
-(function () {
-
-  recountBestOfferPrice(offer());
-  renderBestOfferCard(offer().left, bestOffer.querySelector('.best-offer-item-left .best-offer-card-container'));
-  renderBestOfferCard(offer().right, bestOffer.querySelector('.best-offer-item-right .best-offer-card-container'));
-})();
