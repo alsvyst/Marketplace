@@ -50,9 +50,9 @@ function select(option) {
   const btnValue = select.querySelector('.selected-value');
   const options = select.querySelectorAll('.filter-option');
 
-  options.forEach(opt => {
-    opt.classList.remove('active');
-  });
+  for (let i = 0; i < options.length; i++) {
+    options[i].classList.remove('active');
+  }
 
   if (option.innerText === 'Not selected') {
     select.classList.remove('selected');
@@ -71,9 +71,9 @@ function mobileSelect(option) {
   const dataset = option.closest('.mobile-filter-options').dataset.select;
   const btnValue = filters.querySelector(`[data-select="${dataset}"]`);
 
-  list.forEach(opt => {
-    opt.classList.remove('active');
-  });
+  for (let i = 0; i < list.length; i++) {
+    list[i].classList.remove('active');
+  }
   option.classList.add('active');
 
   if (value === 'Not selected') {
@@ -101,7 +101,7 @@ function renderCatalog() {
 
 function setOrder() {
   const catalogList = catalogContainer.querySelectorAll('.card');
-  catalogList.forEach((el, pos) => {
-    el.style.order = pos;
-  });
+  for (let i = 0; i < catalogList.length; i++) {
+    catalogList[i].style.order = i;
+  }
 }

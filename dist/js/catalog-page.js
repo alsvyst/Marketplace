@@ -52,9 +52,9 @@ function select(option) {
   var btnValue = select.querySelector('.selected-value');
   var options = select.querySelectorAll('.filter-option');
 
-  options.forEach(function (opt) {
-    opt.classList.remove('active');
-  });
+  for (var i = 0; i < options.length; i++) {
+    options[i].classList.remove('active');
+  }
 
   if (option.innerText === 'Not selected') {
     select.classList.remove('selected');
@@ -73,9 +73,9 @@ function mobileSelect(option) {
   var dataset = option.closest('.mobile-filter-options').dataset.select;
   var btnValue = filters.querySelector('[data-select="' + dataset + '"]');
 
-  list.forEach(function (opt) {
-    opt.classList.remove('active');
-  });
+  for (var i = 0; i < list.length; i++) {
+    list[i].classList.remove('active');
+  }
   option.classList.add('active');
 
   if (value === 'Not selected') {
@@ -103,7 +103,7 @@ function renderCatalog() {
 
 function setOrder() {
   var catalogList = catalogContainer.querySelectorAll('.card');
-  catalogList.forEach(function (el, pos) {
-    el.style.order = pos;
-  });
+  for (var i = 0; i < catalogList.length; i++) {
+    catalogList[i].style.order = i;
+  }
 }

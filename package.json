@@ -3,8 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "babel": {
+    "presets": [
+      ["env", {
+        "targets": {
+          "browsers": [ "ie 11"]
+        }
+      }]
+    ]
+  },
   "scripts": {
-    "build": "babel src/js -d dist/js --presets env"
+    "build": "babel src/js -d dist/js"
   },
   "repository": {
     "type": "git",
@@ -20,7 +29,6 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-es2015": "^6.24.1"
+    "babel-preset-env": "^1.7.0"
   }
 }
