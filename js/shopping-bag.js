@@ -5,13 +5,27 @@ const byBtn = document.querySelector('#byNow');
 const totalBagPrice = document.querySelector('.total-price .total .price');
 const totalBagDiscout = document.querySelector('.total-price .discount .price');
 
+(function () {
+  const bag = getShoppingBag();
+  if (bag.items.length) {
+    renderBagCards();
+    setTotalPrice(bag);
+  } else {
+    showMessage('Your shopping bag is empty. Use Catalog to add new items');
+  }
+})();
+
 bag.addEventListener('click', (e) => {
   if (e.target.closest('.quantity-plus') || e.target.closest('.quantity-minus')) {
     e.preventDefault();
+    const title = e.target.closest('.card').querySelector('.card-title').innerText;
+    const input = e.target.closest('.quantity').querySelector('input');
     if (e.target.closest('.quantity-plus')) {
-      recountBag(e.target.closest('.card'));
-    } else {
-      recountBag(e.target.closest('.card'), -1);
+      setTotalPrice(recountNumbers(title));
+      input.value = +(input.value) + 1;
+    } else if (input.value !== '1') {
+      setTotalPrice(recountNumbers(title, -1));
+      input.value = +input.value - 1;
     }
   }
 
@@ -23,60 +37,85 @@ bag.addEventListener('click', (e) => {
 
 clearBagBtn.addEventListener('click', (e) => {
   e.preventDefault();
-  clearBag('Your shopping bag is empty. Use Catalog to add new items');
+  clearBag();
+  showMessage('Your shopping bag is empty. Use Catalog to add new items');
 });
 
 byBtn.addEventListener('click', (e) => {
   e.preventDefault();
-  clearBag('Thank you for your purchase');
+  clearBag();
+  showMessage('Thank you for your purchase');
 });
 
-function recountBag(card, symbol = 1) {
-  const input = card.querySelector('input');
-
-  if (+input.value <= 1 && symbol === -1) {
-    return;
-  }
-
-  const itemTitle = card.querySelector('.card-title').innerText;
-  const itemPrice = getItem(itemTitle).discountedPrice;
-
-
-  recountHeaderBag(itemPrice, symbol);
-  recountTotalPrice(itemPrice, symbol);
-
-  input.value = +(input.value) + symbol;
-}
-
-function clearBag(message) {
-
+function showMessage(message) {
   if (!bagList.querySelector('.text-empty')) {
     bagList.innerHTML = `<p class="text-empty">${message}</p>`;
-
-    totalCost.innerText = '';
-    totalItems.innerText = '0';
-
-    totalBagPrice.innerText = '0';
-    totalBagDiscout.innerText = '0';
   }
 }
 
-function recountTotalPrice(itemCost, symbol = 1, quantity = 1) {
-  totalBagDiscout.innerText = '£15.00';
-  totalBagPrice.innerText = '£' + (+totalBagPrice.innerText.slice(1) + itemCost * symbol * quantity).toFixed(2);
+function clearBag() {
+  const bag = getShoppingBag();
+  bag.items = [];
+  bag.discount = false;
+  recountTotalBagCost(bag);
+  setTotalPrice(bag);
+  localStorage.setItem('bag', JSON.stringify(bag));
 }
 
 function removeItem(item) {
   const title = item.querySelector('.card-title').innerText;
-  const quantity = +item.querySelector('input').value;
-  const itemsPrice = getItem(title).discountedPrice;
+  const bag = getShoppingBag();
 
-  recountTotalPrice(itemsPrice, -1, quantity);
-  recountHeaderBag(itemsPrice, -1, quantity);
+  bag.items = bag.items.filter(item => {
+    return item.title !== title;
+  });
+
+  recountTotalBagCost(bag);
+  setTotalPrice(bag);
+  localStorage.setItem('bag', JSON.stringify(bag));
 
   item.outerHTML = '';
 
   if (!bagList.children.length) {
-    clearBag('Your shopping bag is empty. Use Catalog to add new items');
+    showMessage('Your shopping bag is empty. Use Catalog to add new items');
   }
+}
+
+function renderBagCards() {
+  const bag = getShoppingBag();
+  bag.items.forEach(item => {
+    const template = `
+                <div class="card  ${item.hasNew ? 'new' : ''}">
+                    <a href="item.html">
+                        <div class="card-image">
+                            <img src="${item.thumbnail}" alt="">
+                        </div>
+                        <div class="card-title">
+                            <span>${item.title}</span>
+                        </div>
+                    </a>
+                    <div class="card-price">
+                        <span>£${(item.discountedPrice).toFixed(2)}</span>
+                    </div>
+                    <div class="card-options">
+                        <span>Color: ${item.toBag.color}</span>
+                        <span>Size: ${item.toBag.size}</span>
+                        <div class="quantity">
+                            <span>Quantity:</span>
+                            <button class="quantity-minus"><img src="img/icons/minus.png" alt=""></button>
+                            <input type="number" value="${item.toBag.number}" readonly>
+                            <button class="quantity-plus"><img src="img/icons/plus.png" alt=""></button>
+                        </div>
+                    </div>
+                    <button class="remove title">Remove item</button>
+                </div>
+    `;
+
+    bagList.insertAdjacentHTML('beforeend', template);
+  })
+}
+
+function setTotalPrice(bag) {
+  totalBagDiscout.innerText = `£${(bag.discount ? window.bestOffer.discount : 0).toFixed(2)}`;
+  totalBagPrice.innerText = `£${(bag.totalCost - (bag.discount ? window.bestOffer.discount : 0)).toFixed(2)}`;
 }

@@ -1309,6 +1309,7 @@ footer .footer-bottom ul li + li {
 .shopping-bag .shopping-bag-list .card .card-title {
     margin-top: 10px;
     margin-bottom: 15px;
+    display: inline-block;
 }
 .shopping-bag .shopping-bag-list .card .card-price {
     font-size: 16.67px;

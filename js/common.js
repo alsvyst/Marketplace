@@ -7,6 +7,11 @@ const totalCost = header.querySelector('#totalCost');
 const totalItems = header.querySelector('#totalItems');
 const photography = document.querySelector('.item-photography');
 
+(function () {
+  const bag = getShoppingBag();
+  setHeaderBagCost(bag.totalCost - (bag.discount ? bestOffer.discount : 0), bag.totalItems);
+})();
+
 header.addEventListener('click', function (e) {
   if (e.target.closest('.mobile-menu-btn')) {
     e.preventDefault();
@@ -28,7 +33,15 @@ if (addBtns.length) {
 
       const itemTitle = e.target.closest('.item-info').querySelector('.item-title').innerText;
 
-      recountHeaderBag(getItem(itemTitle).discountedPrice);
+      if (!recountNumbers(itemTitle)) {
+        const item = getItem(itemTitle);
+        item.toBag = {
+          color: item.colors[0],
+          size: item.sizes[0],
+          number: 1
+        };
+        addToBag(item);
+      }
     })
   })
 }
@@ -42,9 +55,20 @@ if (photography) {
   })
 }
 
-function recountHeaderBag(itemCost, symbol = 1, quantity = 1) {
-  totalItems.innerText = +totalItems.innerText + symbol * quantity;
-  totalCost.innerText = '£' + (+totalCost.innerText.slice(1) + itemCost * symbol * quantity).toFixed(2);
+function setHeaderBagCost(price, quantity) {
+  totalItems.innerText = quantity;
+  totalCost.innerText = `£${price.toFixed(2)}`;
+}
+
+function recountTotalBagCost(bag) {
+  bag.totalCost = 0;
+  bag.totalItems = 0;
+  bag.items.forEach(item => {
+    bag.totalCost += item.discountedPrice * item.toBag.number;
+    bag.totalItems = bag.totalItems + item.toBag.number;
+  });
+
+  setHeaderBagCost(bag.totalCost - (bag.discount ? window.bestOffer.discount : 0), bag.totalItems);
 }
 
 function getItem(title) {
@@ -78,7 +102,7 @@ function changePreviewImage(element) {
   });
   full.innerHTML = element.innerHTML;
   element.classList.add('active-image');
-};
+}
 
 function createCard(item) {
   const template = `
@@ -100,4 +124,52 @@ function createCard(item) {
     `;
 
   return template;
+}
+
+function addToBag(item) {
+  const currentBag = getShoppingBag();
+
+  currentBag.items.push(item);
+  recountTotalBagCost(currentBag);
+
+  localStorage.setItem('bag', JSON.stringify(currentBag));
+
+  return currentBag;
+}
+
+function getShoppingBag() {
+  let shoppingBag;
+  if (!localStorage.getItem('bag')) {
+    shoppingBag = {
+      items: [],
+      totalCost: 0,
+      totalItems: 0,
+      discount: false
+    };
+  } else {
+    shoppingBag = JSON.parse(localStorage.getItem('bag'));
+  }
+
+  return shoppingBag;
+}
+
+function recountNumbers(title, symbol = 1) {
+  let result = 0;
+
+  const bag = getShoppingBag();
+  bag.items.forEach(item => {
+    if (item.title === title) {
+
+      if (item.number === 1 && symbol === -1) {
+        return;
+      }
+
+      item.toBag.number = item.toBag.number + symbol;
+      recountTotalBagCost(bag);
+      localStorage.setItem('bag', JSON.stringify(bag));
+      result = bag;
+    }
+  });
+
+  return result;
 }
